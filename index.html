@@ -3,35 +3,64 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>The Local List</title>
     <link rel="stylesheet" href="./Assets/style.css">
 </head>
 <body>
     
+    <!--Page Header-->
     <div class="title">
 
         <h1>The Local List</h1>
 
     </div>
 
+    <!--Contains Search Bar And Tag Line On Page-->
     <div class="search">
 
-        <div id="searchbox">
-            <input type="text" placeholder="Where To Next..."></input>
+        <div id="tagLine">
+
+            <h3>Where Are You Traveling To Next?</h3>
+
         </div>
 
-        <div id="button">
-            <button type="button">Search</button>
+        <!--The Search Bar-->
+        <div class="searchBar">
+            <div id="inputBox">
+                <input type="text" placeholder="Where To Next..."></input>
+            </div>
+
+            <div id="button">
+                <button type="button">Search</button>
+            </div>
         </div>
 
     </div>
 
+    <!--Previous Searches-->
     <div class="recent">
 
+        <h4>Recent Searches</h4>
+
+        <div id="prevsearches">
+
+        </div>
+
     </div>
 
+    <!--Results For The Desired Location-->
     <div class="results">
-        
+
+        <div id="placeholder">
+
+            <h2>New Adventures Await</h2>
+
+        </div>
+
+        <div id="cityName">
+
+        </div>
+
         <div id="scrapper">
 
         </div>
@@ -42,6 +71,9 @@
 
     </div>
 
-    <script src="./Assets/sript.js"></script>
+    <!--Holds all of the Script Links for JS And APIs-->
+    <div class="Scripts">
+        <script src="./Assets/sript.js"></script>
+    </div>
 </body>
 </html>
