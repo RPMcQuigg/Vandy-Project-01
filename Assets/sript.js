@@ -6,8 +6,9 @@ var APIKey = "09a37924adb28c1359f0c44a9ee1ddcb";
 
 // Handles search for the city once clicked
 function handleSearchClick() {
-    console.log('hit')
-    getCoordinates('Nash')
+    var searchCity = locationInput.value
+    console.log(searchCity)
+    getCoordinates(searchCity);
 }
 
 function getCoordinates(city) {
