@@ -1,0 +1,82 @@
+body {
+    font-family: monospace;
+    font-size: 16px;
+}
+
+textarea {
+    background: #000;
+    border: none;
+    resize: none;
+    color: #000000;
+    border-left: 1px solid black;
+    padding: 10px;
+    align-items: center;
+    height: 200px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.title {
+    color: black;
+    font-size: large;
+    color: whitesmoke;
+    height: 200px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 200px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+<div class="h-screen flex items-center justify-center">
+    Horizontally and Vertically Centered Element
+</div>
+
+#searchbox {
+    color: black;
+    text-align:right;
+    margin: 0;
+    width: 357px;
+    margin: 4px auto;
+    text-align: center;
+    display: inline-block;
+    height: 200px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.recent {
+
+}
+
+.results {
+
+}
+
+#scrapper {
+
+}
+
+#events {
+
+}
+
+
+margin-top: 0.625rem; /* 10px */
+margin-right: 0.625rem; /* 10px */
+margin-bottom: 0.625rem; /* 10px */
+margin-left: 0.625rem; /* 10px */
+
+<div class="h-14 bg-gradient-to-r from-cyan-500 to-blue-500"></div>
+background-image: linear-gradient(to top, var(--tw-gradient-stops));
+
+div {
+    width: 300px;
+    border: 15px solid green;
+    padding: 50px;
+    margin: 20px;
+}
