@@ -49,6 +49,10 @@ textarea {
     justify-content: center;
 }
 
+li {
+    list-style: none;
+}
+
 .recent {
 
 }
@@ -80,3 +84,4 @@ div {
     padding: 50px;
     margin: 20px;
 }
+
