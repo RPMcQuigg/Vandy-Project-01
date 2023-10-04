@@ -1,5 +1,7 @@
 var skyScrapperAPIKey = 'ebacfa63aemsh6e8bd01d24f597bp1431b3jsnc70f88d61448'
-
+var baseSkyScrapperURL = 'https://sky-scrapper.p.rapidapi.com/api/v1/'
+var locationInput = document.querySelector('#searchbox')
+var searchBtn = document.querySelector('#button')
 var baseSkyScrapperURL = 'https://sky-scrapper.p.rapidapi.com/api/v1'
 var locationInput = document.querySelector('#inputBox')
 var searchBtn = document.querySelector('#button')
@@ -7,9 +9,10 @@ var APIKey = "09a37924adb28c1359f0c44a9ee1ddcb";
 
 // Handles search for the city once clicked
 function handleSearchClick() {
+    console.log(locationInput)
     var searchCity = locationInput.value
-
     console.log(searchCity)
+
     getCoordinates(searchCity);
 }
 
@@ -19,8 +22,10 @@ function getCoordinates(city) {
             return res.json()
         })
         .then(function (data) {
+            console.log(data)
             var lat = data[0].lat
             var lon = data[0].lon
+            console.log(lat, lon)
             getFlights(lat, lon)
         })
 }
@@ -49,7 +54,6 @@ function getFlights(lat, lon) {
 
 
 searchBtn.addEventListener("click", handleSearchClick)
-
 
 
 // Record searches
