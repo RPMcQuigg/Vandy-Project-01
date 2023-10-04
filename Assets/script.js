@@ -1,4 +1,4 @@
-var skyScrapperAPIKey = 'ebacfa63aemsh6e8bd01d24f597bp1431b3jsnc70f88d61448'
+var skyScrapperAPIKey = 'a4b83d6d95mshe13b75a0f2d76bcp168256jsn0fd961598dd0'
 var baseSkyScrapperURL = 'https://sky-scrapper.p.rapidapi.com/api/v1/'
 var searchBtn = document.querySelector('#button')
 var baseSkyScrapperURL = 'https://sky-scrapper.p.rapidapi.com/api/v1'
