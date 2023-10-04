@@ -6,6 +6,7 @@ var baseSkyScrapperURL = 'https://sky-scrapper.p.rapidapi.com/api/v1'
 var locationInput = document.querySelector('#inputBox')
 var searchBtn = document.querySelector('#button')
 var APIKey = "09a37924adb28c1359f0c44a9ee1ddcb";
+var scrapper = document.getElementById('scrapper')
 
 // Handles search for the city once clicked
 function handleSearchClick() {
@@ -15,7 +16,7 @@ function handleSearchClick() {
 
     getCoordinates(searchCity);
 }
-
+// Get lat and lon for input city
 function getCoordinates(city) {
     fetch(`http://api.openweathermap.org/geo/1.0/direct?q=${city}&appid=${APIKey}`)
         .then(function (res) {
@@ -30,7 +31,7 @@ function getCoordinates(city) {
         })
 }
 
-
+// Get flight parameters
 function getFlights(lat, lon) {
     const options = {
         method: 'GET',
@@ -40,6 +41,7 @@ function getFlights(lat, lon) {
         }
     };
 
+
     var skyScrapperURL = `${baseSkyScrapperURL}/flights/getNearByAirports?lat=${lat}&lng=${lon}`
 
     fetch(skyScrapperURL, options)
@@ -48,10 +50,16 @@ function getFlights(lat, lon) {
         })
         .then(function (data) {
             console.log(data);
+            displayFlights(data)
         });
 }
 
+//Display flight information
+function displayFlights(obj) {
+    scrapper.textContent = obj.data.current.skyId
+    console.log(obj.data.current.skyId)
 
+}
 
 searchBtn.addEventListener("click", handleSearchClick)
 
