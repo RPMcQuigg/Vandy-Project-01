@@ -45,7 +45,11 @@ textarea {
     justify-content: center;
 }
 
-.recent {}
+li {
+    list-style: none;
+}
+
+.recent {
 
 .results {}
 
@@ -71,3 +75,66 @@ div {
     padding: 50px;
     margin: 20px;
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
