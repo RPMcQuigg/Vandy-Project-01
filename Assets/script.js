@@ -16,12 +16,12 @@ async function handleSearchClick() {
     var destCity = destinationInput.value.trim()
     console.log(originCity, destCity)
 
-    //var originCords = await getCoordinates(originCity);
-   // var destCords = await getCoordinates(destCity)
-    //console.log(originCords)
+    var originCords = await getCoordinates(originCity);
+    var destCords = await getCoordinates(destCity)
+    console.log(originCords)
     //information about the airport skyId and entityId
-    //var originInfo = await flightInfo(originCords.lat, originCords.lon)
-    //var destInfo = await flightInfo(destCords.lat, destCords.lon)
+    var originInfo = await flightInfo(originCords.lat, originCords.lon)
+    var destInfo = await flightInfo(destCords.lat, destCords.lon)
 
     getEventsSearch(destCity);
 
