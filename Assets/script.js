@@ -16,29 +16,38 @@ async function handleSearchClick() {
     var destCity = destinationInput.value.trim()
     console.log(originCity, destCity)
 
-    var originCords = await getCoordinates(originCity);
-    var destCords = await getCoordinates(destCity)
-    console.log(originCords)
+    //var originCords = await getCoordinates(originCity);
+   // var destCords = await getCoordinates(destCity)
+    //console.log(originCords)
     //information about the airport skyId and entityId
-    var originInfo = await flightInfo(originCords.lat, originCords.lon)
-    var destInfo = await flightInfo(destCords.lat, destCords.lon)
+    //var originInfo = await flightInfo(originCords.lat, originCords.lon)
+    //var destInfo = await flightInfo(destCords.lat, destCords.lon)
+
+    getEventsSearch(destCity);
 
     // take origin info and destInfo and use them to get the flight data for the two locations
 }
 // Get lat and lon for input city
 function getCoordinates(city) {
-    return fetch(`http://api.openweathermap.org/geo/1.0/direct?q=${city}&appid=${APIKey}`)
-        .then(function (res) {
-            return res.json()
-        })
-        .then(function (data) {
-            console.log(data)
-            var lat = data[0].lat
-            var lon = data[0].lon
-            console.log(lat, lon)
-            return { lat, lon }
-            // flightInfo(lat, lon)
-        })
+    try
+    {
+        return fetch(`http://api.openweathermap.org/geo/1.0/direct?q=${city}&appid=${APIKey}`)
+            .then(function (res) {
+                return res.json()
+            })
+            .then(function (data) {
+                console.log(data)
+                var lat = data[0].lat
+                var lon = data[0].lon
+                console.log(lat, lon)
+                return { lat, lon }
+                // flightInfo(lat, lon)
+            })
+    }
+    catch (err) 
+    {
+        console.log(err);
+    };
 }
 
 // Get flight parameters
@@ -51,17 +60,23 @@ function flightInfo(lat, lon) {
         }
     };
 
+    try
+    {
+        var FlightInfoURL = `${baseSkyScrapperURL}/flights/getNearByAirports?lat=${lat}&lng=${lon}`
 
-    var FlightInfoURL = `${baseSkyScrapperURL}/flights/getNearByAirports?lat=${lat}&lng=${lon}`
-
-    return fetch(FlightInfoURL, options)
-        .then(function (response) {
-            return response.json()
-        })
-        .then(function (data) {
-            console.log(data);
-            return { skyId: data.data.current.skyId, entityId: data.data.current.entityId }
-        });
+        return fetch(FlightInfoURL, options)
+            .then(function (response) {
+                return response.json()
+            })
+            .then(function (data) {
+                console.log(data);
+                return { skyId: data.data.current.skyId, entityId: data.data.current.entityId }
+            });
+    }
+    catch (err) 
+    {
+        console.log(err);
+    };
 }
 
 //Display flight information
@@ -89,7 +104,108 @@ function displayFlightInfo(obj) {
 
 // }
 
+var getEventsSearch = async function (city) 
+{
+    const eventsAPIKey = "KRxYIgVel9CyKuLI2MUA6RETp7Q3HXxl";
+    const eventsAPIBaseUrl = "https://app.ticketmaster.com/discovery/v2/";
+    const eventsAPISearchURL = "events.json"; 
+    var eventSearchParams = `?apikey=${eventsAPIKey}&city=${city}&size=20&sort=date,asc`
+    var apiUrl = eventsAPIBaseUrl + eventsAPISearchURL + eventSearchParams;
+    console.log(apiUrl);
+    
+    try 
+    {
+        //Dynamically add events to the list. The function takes: tag type, image source (if applicable), id, id suffix, 
+        //mouse over action, mouse out action, cursor style, class, and text content.
+        //addEventList(tagType, imgSrc, id, idSuffix, mouseOver, mouseOut, cursorStyle, classType, contentVal)
+        const res = await fetch(apiUrl);
+        const data = await res.json();
+        var imgWidth;
+        var imgHeight;
+        var mouseActionUnderline = "this.style.textDecoration='underline'";
+        var mouseActionNone = "this.style.textDecoration='none'";
+        var tagP = "<p>";
+        
+        if (window.screen.height <= 900)
+        {
+            //min image size to display
+            imgWidth = 100;
+            imgHeight = 56;
+        }
+        else
+        {
+            //max image size to display
+            imgWidth = 205;
+            imgHeight = 115;
+        } 
+        
+        for (var i = 0; i <= data._embedded.events.length; i++)
+        {
+            //add the event venue(s)
+            for (v = 0; v < data._embedded.events[i]._embedded.venues.length; v++)
+            {
+               addEventList(tagP, "", "events-list", data._embedded.events[i].id, "V", mouseActionUnderline, 
+                    mouseActionNone, "cursor: pointer", data._embedded.events[i]._embedded.venues[v].name);
+            }
+            
+            //add the event date
+            addEventList(tagP, "", "events-list", data._embedded.events[i].id, "D", mouseActionUnderline, 
+                mouseActionNone, "cursor: pointer", eventDate);
+            
+                //add the event name
+            addEventList(tagP, "", "events-list", data._embedded.events[i].id, "N", mouseActionUnderline, 
+                mouseActionNone, "cursor: pointer", data._embedded.events[i].name);
+            var localEventDate = data._embedded.events[i].dates.start.localDate;
+            var localEventTime = data._embedded.events[i].dates.start.localTime;
+            var eventDate = dayjs(localEventDate + " " + localEventTime).format("MM/DD/YYYY  h:mm a");
 
+            //add the event image. multiple images available so loop through to get correct size
+            for (var m = 0; m < data._embedded.events[i].images.length; m++)
+            {
+                if (data._embedded.events[i].images[m].width == imgWidth && data._embedded.events[i].images[m].height == imgHeight)
+                {
+                    addEventList('<img>', data._embedded.events[i].images[m].url);
+                    break;
+                }
+            }
+        }
+    } 
+    catch (err) 
+    {
+        console.log(err);
+    };
+
+};
+
+function addEventList(tagType, imgSrc, classType, id, idSuffix, mouseOver, mouseOut, cursorStyle, contentVal) 
+{
+    var newLi = $("<li>")
+    var newTag = $(tagType);
+
+    if (tagType == "<img>")
+    {
+        newTag.attr("src", imgSrc);
+    }
+    else
+    {
+        console.log("other");
+        newTag.attr("id", id + idSuffix);
+        newTag.attr("onmouseover", mouseOver)
+        newTag.attr("onmouseout", mouseOut)
+        newTag.attr("style", cursorStyle)
+        newTag.addClass(classType);
+        newTag.text(contentVal);
+    }
+    
+    newLi.append(newTag)
+    $("#eventsList").prepend(newLi);
+    if (!tagType == "<img>")
+    {
+        $("#" + id).on("click", function () {
+            console.log("Clicked event" + tagType + " " + id);
+        });
+    }
+}
 
 searchBtn.addEventListener("click", handleSearchClick)
 

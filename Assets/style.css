@@ -45,7 +45,11 @@ textarea {
     justify-content: center;
 }
 
-.recent {}
+li {
+    list-style: none;
+}
+
+.recent {
 
 .results {}
 
