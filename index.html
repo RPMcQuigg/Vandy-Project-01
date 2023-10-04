@@ -35,8 +35,8 @@
                 <input id="inputBox" type="text" placeholder="Where To Next..."></input>
             </div>
 
-            <div id="button">
-                <button type="button">Search</button>
+            <div>
+                <button id="button" type="button" onclick="recordSearch()">Search</button>
             </div>
         </div>
 
@@ -47,8 +47,9 @@
 
         <h4>Recent Searches</h4>
 
-        <div id="prevsearches">
-
+        <div>
+            <ul id="prevSearches">
+            </ul>
         </div>
 
     </div>
@@ -81,7 +82,7 @@
 
     <!--Holds all of the Script Links for JS And APIs-->
     <div class="Scripts">
-        <script src="./Assets/sript.js"></script>
+        <script src="./Assets/script.js"></script>
     </div>
 
 </body>
