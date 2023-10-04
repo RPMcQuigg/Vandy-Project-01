@@ -1,24 +1,33 @@
 var skyScrapperAPIKey = 'ebacfa63aemsh6e8bd01d24f597bp1431b3jsnc70f88d61448'
 var baseSkyScrapperURL = 'https://sky-scrapper.p.rapidapi.com/api/v1/'
-var locationInput = document.querySelector('#searchbox')
 var searchBtn = document.querySelector('#button')
 var baseSkyScrapperURL = 'https://sky-scrapper.p.rapidapi.com/api/v1'
-var locationInput = document.querySelector('#inputBox')
+var originInput = document.querySelector('#originInput')
+var destinationInput = document.querySelector('#destinationInput')
 var searchBtn = document.querySelector('#button')
 var APIKey = "09a37924adb28c1359f0c44a9ee1ddcb";
 var scrapper = document.getElementById('scrapper')
 
-// Handles search for the city once clicked
-function handleSearchClick() {
-    console.log(locationInput)
-    var searchCity = locationInput.value
-    console.log(searchCity)
 
-    getCoordinates(searchCity);
+// Handles search for the city once clicked
+async function handleSearchClick() {
+    // console.log(locationInput)
+    var originCity = originInput.value.trim()
+    var destCity = destinationInput.value.trim()
+    console.log(originCity, destCity)
+
+    var originCords = await getCoordinates(originCity);
+    var destCords = await getCoordinates(destCity)
+    console.log(originCords)
+    //information about the airport skyId and entityId
+    var originInfo = await flightInfo(originCords.lat, originCords.lon)
+    var destInfo = await flightInfo(destCords.lat, destCords.lon)
+
+    // take origin info and destInfo and use them to get the flight data for the two locations
 }
 // Get lat and lon for input city
 function getCoordinates(city) {
-    fetch(`http://api.openweathermap.org/geo/1.0/direct?q=${city}&appid=${APIKey}`)
+    return fetch(`http://api.openweathermap.org/geo/1.0/direct?q=${city}&appid=${APIKey}`)
         .then(function (res) {
             return res.json()
         })
@@ -27,12 +36,13 @@ function getCoordinates(city) {
             var lat = data[0].lat
             var lon = data[0].lon
             console.log(lat, lon)
-            getFlights(lat, lon)
+            return { lat, lon }
+            // flightInfo(lat, lon)
         })
 }
 
 // Get flight parameters
-function getFlights(lat, lon) {
+function flightInfo(lat, lon) {
     const options = {
         method: 'GET',
         headers: {
@@ -42,33 +52,53 @@ function getFlights(lat, lon) {
     };
 
 
-    var skyScrapperURL = `${baseSkyScrapperURL}/flights/getNearByAirports?lat=${lat}&lng=${lon}`
+    var FlightInfoURL = `${baseSkyScrapperURL}/flights/getNearByAirports?lat=${lat}&lng=${lon}`
 
-    fetch(skyScrapperURL, options)
+    return fetch(FlightInfoURL, options)
         .then(function (response) {
             return response.json()
         })
         .then(function (data) {
             console.log(data);
-            displayFlights(data)
+            return { skyId: data.data.current.skyId, entityId: data.data.current.entityId }
         });
 }
 
 //Display flight information
-function displayFlights(obj) {
+function displayFlightInfo(obj) {
     scrapper.textContent = obj.data.current.skyId
     console.log(obj.data.current.skyId)
 
 }
+// function flightPrice() {
+
+//     const options = {
+//         method: 'GET',
+//         params: {
+//             originSkyId: '',
+//             destinationSkyId: '',
+//             fromDate: '2024-02-20'
+//         },
+//         headers: {
+//             'X-RapidAPI-Key': skyScrapperAPIKey
+//             'X-RapidAPI-Host': 'sky-scrapper.p.rapidapi.com'
+//         }
+//     };
+
+//     var skyScrapperPriceURL = `${baseSkyScrapperURL} flights/getPriceCalendar'
+
+// }
+
+
 
 searchBtn.addEventListener("click", handleSearchClick)
 
 
 // Record searches
 function recordSearch() {
-    const searchInput = document.getElementById("inputBox");
+    const searchInput = document.getElementById("originInput");
     const recentSearches = JSON.parse(localStorage.getItem("prevSearches")) || [];
-    const searchTerm = searchInput.value.trim();
+    const searchTerm = originInput.value.trim();
 
     if (searchTerm !== "") {
         recentSearches.unshift(searchTerm);
