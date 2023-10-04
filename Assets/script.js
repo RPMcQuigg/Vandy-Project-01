@@ -1,4 +1,11 @@
 var skyScrapperAPIKey = 'ebacfa63aemsh6e8bd01d24f597bp1431b3jsnc70f88d61448'
+    <<<<<<<< < Temporary merge branch 1
+var baseSkyScrapperURL = 'https://sky-scrapper.p.rapidapi.com/api/v1/'
+var locationInput = document.querySelector('#searchbox')
+var searchBtn = document.querySelector('#button')
+var lat;
+var lon;
+=========
 var baseSkyScrapperURL = 'https://sky-scrapper.p.rapidapi.com/api/v1'
 var locationInput = document.querySelector('#inputBox')
 var searchBtn = document.querySelector('#button')
