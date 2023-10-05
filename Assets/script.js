@@ -65,13 +65,16 @@ searchBtn.addEventListener("click", handleSearchClick)
 
 
 // Record searches
+const searchOrigin = document.getElementById("originInput")
+const searchInput = document.getElementById("inputBox");
 function recordSearch() {
-    const searchInput = document.getElementById("inputBox");
     const recentSearches = JSON.parse(localStorage.getItem("prevSearches")) || [];
-    const searchTerm = searchInput.value.trim();
+    const searchTerm = searchInput.value.trim(); // getting Going To Data
+    const searchOriginTerm = searchOrigin.value.trim() // getting Origin Data
+    const newPath = [searchOriginTerm, searchTerm ]
 
     if (searchTerm !== "") {
-        recentSearches.unshift(searchTerm);
+        recentSearches.unshift(newPath); // bring in the small arr into the main arr
 
         if (recentSearches.length > 5) {
             recentSearches.pop();
@@ -94,10 +97,24 @@ function displayRecentSearches() {
 
     for (const search of recentSearches) {
         const listItem = document.createElement("li");
+        listItem.classList.add("listSearches");
         listItem.textContent = search;
         recentSearchesList.appendChild(listItem);
+        listItem.addEventListener("click", function (event){
+            const userChoice = event.target.textContent
+            const originCity = userChoice.split(',')[0]
+            const destinationCity = userChoice.split(',')[1]
+            searchOrigin.value = originCity
+            searchInput.value = destinationCity
+
+
+        })
     }
 }
+
+
+
+
 
 // Calls displayRecentSearches to load any previously made searches from local storage
 displayRecentSearches();
