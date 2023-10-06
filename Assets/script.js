@@ -205,10 +205,11 @@ function addEventList(tagType, imgSrc, classType, id, idSuffix, mouseOver, mouse
 
 searchBtn.addEventListener("click", handleSearchClick)
 
-
 // Record searches
 const searchOrigin = document.getElementById("originInput")
 const searchInput = document.getElementById("inputBox");
+
+
 function recordSearch() {
     const recentSearches = JSON.parse(localStorage.getItem("prevSearches")) || [];
     const searchTerm = searchInput.value.trim(); // getting Going To Data
@@ -226,9 +227,9 @@ function recordSearch() {
 
         displayRecentSearches();
     }
-
+    searchOrigin.value = "";
     searchInput.value = "";
-}
+    }
 
 // Display recent searches
 function displayRecentSearches() {
@@ -255,12 +256,9 @@ function displayRecentSearches() {
 }
 
 
-
-
-
-// Calls displayRecentSearches to load any previously made searches from local storage
+// Calls displayRecentSearches to load previously made searches
 displayRecentSearches();
 
-// Add an event listener to the search button to trigger the recordSearch function
+// Add an event listener to search button to trigger recordSearch function
 const searchButton = document.getElementById("button");
 searchButton.addEventListener("click", recordSearch);
