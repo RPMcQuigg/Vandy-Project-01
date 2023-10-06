@@ -207,7 +207,7 @@ searchBtn.addEventListener("click", handleSearchClick)
 
 // Record searches
 const searchOrigin = document.getElementById("originInput")
-const searchInput = document.getElementById("inputBox");
+const searchInput = document.getElementById("destinationInput");
 
 
 function recordSearch() {
