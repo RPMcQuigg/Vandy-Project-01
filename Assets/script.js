@@ -1,5 +1,5 @@
-var skyScrapperAPIKey = 'a4b83d6d95mshe13b75a0f2d76bcp168256jsn0fd961598dd0'
-var baseSkyScrapperURL = 'https://sky-scrapper.p.rapidapi.com/api/v1/'
+//var skyScrapperAPIKey = 'a4b83d6d95mshe13b75a0f2d76bcp168256jsn0fd961598dd0'
+//var baseSkyScrapperURL = 'https://sky-scrapper.p.rapidapi.com/api/v1/'
 var searchBtn = document.querySelector('#button')
 var baseSkyScrapperURL = 'https://sky-scrapper.p.rapidapi.com/api/v1'
 var originInput = document.querySelector('#originInput')
@@ -233,13 +233,14 @@ searchBtn.addEventListener("click", handleSearchClick)
 // Record searches
 const searchOrigin = document.getElementById("originInput")
 const searchInput = document.getElementById("destinationInput");
-
+const searchArrival = document.getElementById("arrivalInput");
+const searchDepart = document.getElementById("departInput");
 
 function recordSearch() {
     const recentSearches = JSON.parse(localStorage.getItem("prevSearches")) || [];
     const searchTerm = searchInput.value.trim(); // getting Going To Data
-    const searchOriginTerm = searchOrigin.value.trim() // getting Origin Data
-    const newPath = [searchOriginTerm, searchTerm ]
+    const searchOriginTerm = searchOrigin.value.trim(); // getting Origin Data
+    const newPath = [searchOriginTerm, searchTerm];
 
     if (searchTerm !== "") {
         recentSearches.unshift(newPath); // bring in the small arr into the main arr
@@ -254,6 +255,8 @@ function recordSearch() {
     }
     searchOrigin.value = "";
     searchInput.value = "";
+    searchArrival.value = "";
+    searchDepart.value = "";
     }
 
 // Display recent searches
