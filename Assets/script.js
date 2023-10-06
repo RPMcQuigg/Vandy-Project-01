@@ -7,7 +7,8 @@ var destinationInput = document.querySelector('#destinationInput')
 var searchBtn = document.querySelector('#button')
 var APIKey = "09a37924adb28c1359f0c44a9ee1ddcb";
 var scrapper = document.getElementById('scrapper')
-
+var originInfo
+var destInfo
 
 // Handles search for the city once clicked
 async function handleSearchClick() {
@@ -15,20 +16,43 @@ async function handleSearchClick() {
     var originCity = originInput.value.trim()
     var destCity = destinationInput.value.trim()
     // console.log(originCity, destCity)
-
-    var originCords = await getCoordinates(originCity);
     var destCords = await getCoordinates(destCity)
+    destInfo = await flightInfo(destCords.lat, destCords.lon)
+
+    if (originCity == '') {
+        navigator.geolocation.getCurrentPosition(success, showError)
+    }
+    else {
+        var originCords = await getCoordinates(originCity);
+        originInfo = await flightInfo(originCords.lat, originCords.lon)
+        flightPrice(originInfo.skyId, destInfo.skyId);
+
+    }
     // console.log(originCords)
     //information about the airport skyId and entityId
-    var originInfo = await flightInfo(originCords.lat, originCords.lon)
-    var destInfo = await flightInfo(destCords.lat, destCords.lon)
 
-    flightPrice(originInfo.skyId, destInfo.skyId);
+
 
     getEventsSearch(destCity);
 
     // take origin info and destInfo and use them to get the flight data for the two locations
 }
+
+function showError(error) {
+    var errMessage = "";
+
+}
+
+
+
+async function success(pos) {
+    const crd = pos.coords;
+    //Pass local latitude and longitude to api to get the current weather.
+    originInfo = await flightInfo(crd.latitude, crd.longitude)
+    flightPrice(originInfo.skyId, destInfo.skyId);
+
+}
+
 // Get lat and lon for input city
 function getCoordinates(city) {
     try {
