@@ -1,14 +1,14 @@
 body {
     font-family: monospace;
     font-size: 16px;
+    background-image: linear-gradient(180deg, red, yellow);
+    height: 1000px;
 }
 
 textarea {
-    background: #000;
     border: none;
     resize: none;
-    color: #000000;
-    border-left: 1px solid black;
+    color: white;
     padding: 10px;
     align-items: center;
     height: 200px;
@@ -18,9 +18,9 @@ textarea {
 }
 
 .title {
-    color: black;
+    background-image: url("./Images/wood.jpg");
     font-size: large;
-    color: black;
+    color: whitesmoke;
     height: 200px;
     display: flex;
     align-items: center;
@@ -29,11 +29,18 @@ textarea {
     display: flex;
     align-items: center;
     justify-content: center;
+    /* margin-left: 30%; */
 }
 
-<div class="h-screen flex items-center justify-center">Horizontally and Vertically Centered Element </div>#searchbox {
-    color: black;
-    text-align: right;
+#tagLine {
+    text-align: center;
+    color: whitesmoke;
+
+}
+
+.searchBar {
+    color: whitesmoke;
+    text-align:right;
     margin: 0;
     width: 357px;
     margin: 4px auto;
@@ -45,42 +52,15 @@ textarea {
     justify-content: center;
 }
 
-li {
-    list-style: none;
-}
-
 .recent {
-
-.results {}
-
-#scrapper {}
-
-#events {}
-
-
-margin-top: 0.625rem;
-/* 10px */
-margin-right: 0.625rem;
-/* 10px */
-margin-bottom: 0.625rem;
-/* 10px */
-margin-left: 0.625rem;
-/* 10px */
-
-<div class="h-14 bg-gradient-to-r from-cyan-500 to-blue-500"></div>background-image: linear-gradient(to top, var(--tw-gradient-stops));
-
-div {
-    width: 300px;
-    border: 15px solid green;
-    padding: 50px;
-    margin: 20px;
+    color: whitesmoke;
+    text-align: center;
 }
 
-
-
-
-
-
+.results {
+    color: whitesmoke;
+    text-align: center;
+}
 
 
 
