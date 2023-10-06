@@ -12,10 +12,8 @@ var destInfo
 
 // Handles search for the city once clicked
 async function handleSearchClick() {
-    // console.log(locationInput)
     var originCity = originInput.value.trim()
     var destCity = destinationInput.value.trim()
-    // console.log(originCity, destCity)
     var destCords = await getCoordinates(destCity)
     destInfo = await flightInfo(destCords.lat, destCords.lon)
 
@@ -26,12 +24,8 @@ async function handleSearchClick() {
         var originCords = await getCoordinates(originCity);
         originInfo = await flightInfo(originCords.lat, originCords.lon)
         flightPrice(originInfo.skyId, destInfo.skyId);
-
     }
-    // console.log(originCords)
     //information about the airport skyId and entityId
-
-
 
     getEventsSearch(destCity);
 
@@ -40,17 +34,14 @@ async function handleSearchClick() {
 
 function showError(error) {
     var errMessage = "";
-
+    //add modal to pop message to user saying there is no origin city
 }
-
-
 
 async function success(pos) {
     const crd = pos.coords;
     //Pass local latitude and longitude to api to get the current weather.
     originInfo = await flightInfo(crd.latitude, crd.longitude)
     flightPrice(originInfo.skyId, destInfo.skyId);
-
 }
 
 // Get lat and lon for input city
@@ -133,19 +124,17 @@ function displayFlightInfo(flightCalendarArr) {
     });
 }
 
-
-
-
-
-var getEventsSearch = async function (city) {
+var getEventsSearch = async function (city)
+{
     const eventsAPIKey = "KRxYIgVel9CyKuLI2MUA6RETp7Q3HXxl";
     const eventsAPIBaseUrl = "https://app.ticketmaster.com/discovery/v2/";
     const eventsAPISearchURL = "events.json";
-    var eventSearchParams = `? apikey = ${eventsAPIKey}& city=${city}& size=20 & sort=date, asc`
+    var eventSearchParams = `?apikey=${eventsAPIKey}&city=${city}&size=20&sort=date,asc`
     var apiUrl = eventsAPIBaseUrl + eventsAPISearchURL + eventSearchParams;
-    console.log(apiUrl);
+    //console.log(apiUrl);
 
-    try {
+    try
+    {
         //Dynamically add events to the list. The function takes: tag type, image source (if applicable), id, id suffix, 
         //mouse over action, mouse out action, cursor style, class, and text content.
         //addEventList(tagType, imgSrc, id, idSuffix, mouseOver, mouseOut, cursorStyle, classType, contentVal)
@@ -157,20 +146,24 @@ var getEventsSearch = async function (city) {
         var mouseActionNone = "this.style.textDecoration='none'";
         var tagP = "<p>";
 
-        if (window.screen.height <= 900) {
+        if (window.screen.height <= 900)
+        {
             //min image size to display
             imgWidth = 100;
             imgHeight = 56;
         }
-        else {
+        else
+        {
             //max image size to display
             imgWidth = 205;
             imgHeight = 115;
         }
 
-        for (var i = 0; i <= data._embedded.events.length; i++) {
+        for (var i = 0; i <= data._embedded.events.length; i++)
+        {
             //add the event venue(s)
-            for (v = 0; v < data._embedded.events[i]._embedded.venues.length; v++) {
+            for (v = 0; v < data._embedded.events[i]._embedded.venues.length; v++)
+            {
                 addEventList(tagP, "", "events-list", data._embedded.events[i].id, "V", mouseActionUnderline,
                     mouseActionNone, "cursor: pointer", data._embedded.events[i]._embedded.venues[v].name);
             }
@@ -187,28 +180,34 @@ var getEventsSearch = async function (city) {
             var eventDate = dayjs(localEventDate + " " + localEventTime).format("MM/DD/YYYY  h:mm a");
 
             //add the event image. multiple images available so loop through to get correct size
-            for (var m = 0; m < data._embedded.events[i].images.length; m++) {
-                if (data._embedded.events[i].images[m].width == imgWidth && data._embedded.events[i].images[m].height == imgHeight) {
+            for (var m = 0; m < data._embedded.events[i].images.length; m++)
+            {
+                if (data._embedded.events[i].images[m].width == imgWidth && data._embedded.events[i].images[m].height == imgHeight)
+                {
                     addEventList('<img>', data._embedded.events[i].images[m].url);
                     break;
                 }
             }
         }
     }
-    catch (err) {
+    catch (err)
+    {
         console.log(err);
     };
 
 };
 
-function addEventList(tagType, imgSrc, classType, id, idSuffix, mouseOver, mouseOut, cursorStyle, contentVal) {
+function addEventList(tagType, imgSrc, classType, id, idSuffix, mouseOver, mouseOut, cursorStyle, contentVal)
+{
     var newLi = $("<li>")
     var newTag = $(tagType);
 
-    if (tagType == "<img>") {
+    if (tagType == "<img>")
+    {
         newTag.attr("src", imgSrc);
     }
-    else {
+    else
+    {
         console.log("other");
         newTag.attr("id", id + idSuffix);
         newTag.attr("onmouseover", mouseOver)
@@ -220,8 +219,10 @@ function addEventList(tagType, imgSrc, classType, id, idSuffix, mouseOver, mouse
 
     newLi.append(newTag)
     $("#eventsList").prepend(newLi);
-    if (!tagType == "<img>") {
-        $("#" + id).on("click", function () {
+    if (!tagType == "<img>")
+    {
+        $("#" + id).on("click", function ()
+        {
             console.log("Clicked event" + tagType + " " + id);
         });
     }
