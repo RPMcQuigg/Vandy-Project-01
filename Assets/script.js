@@ -1,4 +1,4 @@
-var skyScrapperAPIKey = 'a4b83d6d95mshe13b75a0f2d76bcp168256jsn0fd961598dd0'
+var skyScrapperAPIKey = 'f415aaef18msh098b3a25521d368p1e429bjsn3cf183c9f438'
 var baseSkyScrapperURL = 'https://sky-scrapper.p.rapidapi.com/api/v1/'
 var searchBtn = document.querySelector('#button')
 var baseSkyScrapperURL = 'https://sky-scrapper.p.rapidapi.com/api/v1'
@@ -7,8 +7,8 @@ var destinationInput = document.querySelector('#destinationInput')
 var searchBtn = document.querySelector('#button')
 var APIKey = "09a37924adb28c1359f0c44a9ee1ddcb";
 var scrapper = document.getElementById('scrapper')
-var originInfo
-var destInfo
+// var originInfo
+// var destInfo
 
 // Handles search for the city once clicked
 async function handleSearchClick() {
@@ -52,11 +52,9 @@ function getCoordinates(city) {
                 return res.json()
             })
             .then(function (data) {
-                // console.log(data)
                 var lat = data[0].lat
                 var lon = data[0].lon
                 return { lat, lon }
-                // flightInfo(lat, lon)
             })
     }
     catch (err) {
@@ -64,7 +62,7 @@ function getCoordinates(city) {
     };
 }
 
-// Get flight parameters
+Get flight parameters
 function flightInfo(lat, lon) {
     const options = {
         method: 'GET',
@@ -82,8 +80,8 @@ function flightInfo(lat, lon) {
                 return response.json()
             })
             .then(function (data) {
-                // console.log(data);
-                return { skyId: data.data.current.skyId, entityId: data.data.current.entityId }
+                console.log(data);
+                // return { skyId: data.data.current.skyId, entityId: data.data.current.entityId }
             });
     }
     catch (err) {
@@ -124,8 +122,7 @@ function displayFlightInfo(flightCalendarArr) {
     });
 }
 
-var getEventsSearch = async function (city)
-{
+var getEventsSearch = async function (city) {
     const eventsAPIKey = "KRxYIgVel9CyKuLI2MUA6RETp7Q3HXxl";
     const eventsAPIBaseUrl = "https://app.ticketmaster.com/discovery/v2/";
     const eventsAPISearchURL = "events.json";
@@ -133,8 +130,7 @@ var getEventsSearch = async function (city)
     var apiUrl = eventsAPIBaseUrl + eventsAPISearchURL + eventSearchParams;
     //console.log(apiUrl);
 
-    try
-    {
+    try {
         //Dynamically add events to the list. The function takes: tag type, image source (if applicable), id, id suffix, 
         //mouse over action, mouse out action, cursor style, class, and text content.
         //addEventList(tagType, imgSrc, id, idSuffix, mouseOver, mouseOut, cursorStyle, classType, contentVal)
@@ -146,24 +142,20 @@ var getEventsSearch = async function (city)
         var mouseActionNone = "this.style.textDecoration='none'";
         var tagP = "<p>";
 
-        if (window.screen.height <= 900)
-        {
+        if (window.screen.height <= 900) {
             //min image size to display
             imgWidth = 100;
             imgHeight = 56;
         }
-        else
-        {
+        else {
             //max image size to display
             imgWidth = 205;
             imgHeight = 115;
         }
 
-        for (var i = 0; i <= data._embedded.events.length; i++)
-        {
+        for (var i = 0; i <= data._embedded.events.length; i++) {
             //add the event venue(s)
-            for (v = 0; v < data._embedded.events[i]._embedded.venues.length; v++)
-            {
+            for (v = 0; v < data._embedded.events[i]._embedded.venues.length; v++) {
                 addEventList(tagP, "", "events-list", data._embedded.events[i].id, "V", mouseActionUnderline,
                     mouseActionNone, "cursor: pointer", data._embedded.events[i]._embedded.venues[v].name);
             }
@@ -180,34 +172,28 @@ var getEventsSearch = async function (city)
             var eventDate = dayjs(localEventDate + " " + localEventTime).format("MM/DD/YYYY  h:mm a");
 
             //add the event image. multiple images available so loop through to get correct size
-            for (var m = 0; m < data._embedded.events[i].images.length; m++)
-            {
-                if (data._embedded.events[i].images[m].width == imgWidth && data._embedded.events[i].images[m].height == imgHeight)
-                {
+            for (var m = 0; m < data._embedded.events[i].images.length; m++) {
+                if (data._embedded.events[i].images[m].width == imgWidth && data._embedded.events[i].images[m].height == imgHeight) {
                     addEventList('<img>', data._embedded.events[i].images[m].url);
                     break;
                 }
             }
         }
     }
-    catch (err)
-    {
+    catch (err) {
         console.log(err);
     };
 
 };
 
-function addEventList(tagType, imgSrc, classType, id, idSuffix, mouseOver, mouseOut, cursorStyle, contentVal)
-{
+function addEventList(tagType, imgSrc, classType, id, idSuffix, mouseOver, mouseOut, cursorStyle, contentVal) {
     var newLi = $("<li>")
     var newTag = $(tagType);
 
-    if (tagType == "<img>")
-    {
+    if (tagType == "<img>") {
         newTag.attr("src", imgSrc);
     }
-    else
-    {
+    else {
         console.log("other");
         newTag.attr("id", id + idSuffix);
         newTag.attr("onmouseover", mouseOver)
@@ -219,10 +205,8 @@ function addEventList(tagType, imgSrc, classType, id, idSuffix, mouseOver, mouse
 
     newLi.append(newTag)
     $("#eventsList").prepend(newLi);
-    if (!tagType == "<img>")
-    {
-        $("#" + id).on("click", function ()
-        {
+    if (!tagType == "<img>") {
+        $("#" + id).on("click", function () {
             console.log("Clicked event" + tagType + " " + id);
         });
     }
@@ -239,7 +223,7 @@ function recordSearch() {
     const recentSearches = JSON.parse(localStorage.getItem("prevSearches")) || [];
     const searchTerm = searchInput.value.trim(); // getting Going To Data
     const searchOriginTerm = searchOrigin.value.trim() // getting Origin Data
-    const newPath = [searchOriginTerm, searchTerm ]
+    const newPath = [searchOriginTerm, searchTerm]
 
     if (searchTerm !== "") {
         recentSearches.unshift(newPath); // bring in the small arr into the main arr
@@ -254,7 +238,7 @@ function recordSearch() {
     }
     searchOrigin.value = "";
     searchInput.value = "";
-    }
+}
 
 // Display recent searches
 function displayRecentSearches() {
@@ -268,7 +252,7 @@ function displayRecentSearches() {
         listItem.classList.add("listSearches");
         listItem.textContent = search;
         recentSearchesList.appendChild(listItem);
-        listItem.addEventListener("click", function (event){
+        listItem.addEventListener("click", function (event) {
             const userChoice = event.target.textContent
             const originCity = userChoice.split(',')[0]
             const destinationCity = userChoice.split(',')[1]
