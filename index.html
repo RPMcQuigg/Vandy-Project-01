@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>The Local List</title>
+    <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="./Assets/style.css">
 </head>
 
@@ -32,9 +33,9 @@
         <!--The Search Bar-->
         <div class="searchBar">
             <div>
-                <input id="originInput" type="text" placeholder="Where Are Your Coming From..."></input>
-                <input id="destinationInput" type="text" placeholder="Where Are You Going Next..."></input>
-                <input id="dateInput" type="date"></input>
+                <input id="originInput" type="text" placeholder="Where Are Your Coming From...">
+                <input id="destinationInput" type="text" placeholder="Where Are You Going Next...">
+                <input id="dateInput" type="date">
             </div>
 
             <div class="searchButton">
@@ -50,7 +51,6 @@
         <h4>Recent Searches</h4>
 
         <ul id="prevSearches">
-
         </ul>
 
     </div>
@@ -76,34 +76,43 @@
         <!--Events section-->
         <section>
             <h1>Events</h1>
-            <div class="events">
-                <ul id="eventsList" class="eventsList">
-                </ul>
+            <div>
+                <input id="eventsKeywordInput" type="text" placeholder="Keyword...">
+                <input id="dateInput" type="date">
+            </div>
+            <div id="eventsList" class="grid grid-flow-row auto-rows-max">
             </div>
         </section>
 
-        <div class="flex 
+        <div class="flex
         items-center
-        justify-center 
-        h-64"><h1 class="text-white text-3xl font-semibold"></h1>
+        justify-center
+        h-64">
+            <h1 class="text-white text-3xl font-semibold"></h1>
         </div>
 
+
+    </div>
+    <!-- The Modal -->
+    <div id="msgModal" class="modal">
+        <!-- Modal content -->
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <p id="informMessage"></p>
+        </div>
+    </div>
+
+
+        <!--Holds all of the Script Links for JS And APIs-->
         <div class="Scripts">
-            <script src="./Assets/sript.js"></script>
+            <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+            <script src="./Assets/script.js"></script>
+
+            <script src="https://cdn.jsdelivr.net/npm/dayjs@1.11.3/dayjs.min.js"
+                    integrity="sha256-iu/zLUB+QgISXBLCW/mcDi/rnf4m4uEDO0wauy76x7U=" crossorigin="anonymous"></script>
+
         </div>
 
-    </div>
-
-
-    <!--Holds all of the Script Links for JS And APIs-->
-    <div class="Scripts">
-        <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-        <script src="./Assets/script.js"></script>
-
-        <script src="https://cdn.jsdelivr.net/npm/dayjs@1.11.3/dayjs.min.js"
-            integrity="sha256-iu/zLUB+QgISXBLCW/mcDi/rnf4m4uEDO0wauy76x7U=" crossorigin="anonymous"></script>
-
-    </div>
 
 </body>
 
