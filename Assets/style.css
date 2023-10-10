@@ -18,14 +18,14 @@ textarea {
 }
 
 .title {
-    background-image: url("./Images/headerImg.jpeg");
+    background-image: url("./Images/SUNSHINY.png");
     font-size: large;
     color: black;
-    height: 200px;
+    height: 300px;
+    width: 771px;
     display: flex;
     align-items: center;
     justify-content: center;
-    height: 200px;
     display: flex;
     align-items: center;
     justify-content: center;
