@@ -78,12 +78,11 @@ async function success(pos) {
 // Get lat and lon for input city
 function getCoordinates(city) {
     try {
-        return fetch(`http://api.openweathermap.org/geo/1.0/direct?q=${city}&appid=${weatherAPIKey}`)
+        return fetch(`https://api.openweathermap.org/geo/1.0/direct?q=${city}&appid=${weatherAPIKey}`)
             .then(function (res) {
                 return res.json()
             })
             .then(function (data) {
-                //console.log(data)
                 var lat = data[0].lat
                 var lon = data[0].lon
                 getForecast(lat, lon)
@@ -101,7 +100,6 @@ function getForecast(lat, lon) {
         })
         .then(function (data) {
             displayForecast(data)
-            //console.log(lat, lon)
         })
 }
 
@@ -109,28 +107,21 @@ function displayForecast(data) {
     var displayForecastWeather = document.querySelector('#display-forecast')
     //Clear out any child elements added in previous searches
     deletePreviousElements("display-forecast");
-    
-    //console.log(data)
+
     for (let i = 0; i < 40; i += 8) {
-        //console.log(data.list[i])
         var dayData = data.list[i];
+        var dateFormat = dayjs(dayData.dt_txt).format('MM-DD-YYYY')
         var divEl = document.createElement("div");
-        var h2El = document.createElement('h2')
-        // var header = `
-        // <h2> Hello </h2>
-        // `
         var inner = `
         <div>
-        <p>${dayData.dt_txt}</p>
+        <p>${dateFormat}</p>
         <p>Temp: ${dayData.main.temp} F</p>
         <p>Wind: ${dayData.wind.speed} MPH</p>
         <p>Humidty: ${dayData.main.humidity} %</P> 
         <div>
         `
 
-        divEl.innerHTML = inner;
-        // h2El.innerHTML = header;
-        // displayForecastWeather.appendChild(h2El);
+        divEl.innerHTML = inner
 
         displayForecastWeather.appendChild(divEl);
 
@@ -138,15 +129,14 @@ function displayForecast(data) {
 }
 
 function deletePreviousElements(eleId) {
-    var node= document.getElementById(eleId);
+    var node = document.getElementById(eleId);
     while (node.firstChild) {
         node.removeChild(node.firstChild);
     }
 }
 
 
-var getEventsSearch = async function (city) 
-{
+var getEventsSearch = async function (city) {
     const eventsAPIKey = "KRxYIgVel9CyKuLI2MUA6RETp7Q3HXxl";
     const eventsAPIBaseUrl = "https://app.ticketmaster.com/discovery/v2/events.json";
     //URL for api cannot have spaces so replace any spaces in the city name with underscores
@@ -160,9 +150,8 @@ var getEventsSearch = async function (city)
     var apiUrl = eventsAPIBaseUrl + eventSearchParams;
     //Clear out any child elements added in previous searches
     deletePreviousElements("eventsList");
-    
-    try
-    {
+
+    try {
         //Dynamically add events to the list. The function takes: parent div, tag type, image source (if applicable), id, 
         //id suffix, class, and text content.
         //addEventList(parentDiv, tagType, imgSrc, id, idSuffix, classType, contentVal)
@@ -173,31 +162,26 @@ var getEventsSearch = async function (city)
         var imgHeight = 115;
         var tagP = "<p>";
         var newBlockRow;
- 
-        if (window.screen.height <= 900)
-        {
+
+        if (window.screen.height <= 900) {
             //min image size to display
             imgWidth = 100;
             imgHeight = 56;
         }
 
         //Skip adding html elements if no event returned
-        if (data.page.totalPages >> 0) 
-        {
-            for (var i = 0; i < data._embedded.events.length; i++) 
-            {
+        if (data.page.totalPages >> 0) {
+            for (var i = 0; i < data._embedded.events.length; i++) {
                 var id = data._embedded.events[i].id;
                 newBlockRow = $("<div>")
                 //Add so row can be clickable.
                 var newLinkRow = $("<a>")
                 newLinkRow.attr("id", id);
-                
+
                 newLinkRow.addClass(`grid grid-cols-11 grid-rows-3 grid-flow-col gap-2 border-2 border-solid border-black`);
                 //add the event image. multiple images available so loop through to get correct size
-                for (var m = 0; m < data._embedded.events[i].images.length; m++)
-                {
-                    if (data._embedded.events[i].images[m].width == imgWidth && data._embedded.events[i].images[m].height == imgHeight)
-                    {
+                for (var m = 0; m < data._embedded.events[i].images.length; m++) {
+                    if (data._embedded.events[i].images[m].width == imgWidth && data._embedded.events[i].images[m].height == imgHeight) {
                         addEventList(newLinkRow, '<div>', data._embedded.events[i].images[m].url, "row-span-3 col-span-1 max-w-full", "backgroundimage", "");
                         break;
                     }
@@ -215,11 +199,10 @@ var getEventsSearch = async function (city)
                 addEventList(newLinkRow, tagP, "", "col-span-8", id, "D", eventDate);
 
                 //add the event venue(s)
-                for (v = 0; v < data._embedded.events[i]._embedded.venues.length; v++)
-                {
+                for (v = 0; v < data._embedded.events[i]._embedded.venues.length; v++) {
                     addEventList(newLinkRow, tagP, "", "col-span-8", id, "V", data._embedded.events[i]._embedded.venues[v].name);
                 }
-                
+
                 $(newBlockRow).append(newLinkRow);
                 $("#eventsList").append(newBlockRow);
                 //Adds the url to the clickable row
@@ -228,32 +211,27 @@ var getEventsSearch = async function (city)
                 document.getElementById(id).target = "_blank";
             }
         }
-        else
-        {
+        else {
             newBlockRow = $("<h1>")
             newBlockRow.attr("id", "no-events");
             newBlockRow.text("No events found");
             $("#eventsList").prepend(newBlockRow);
         }
     }
-    catch (err) 
-    {
+    catch (err) {
         console.log(err);
     };
 };
 
-function addEventList(parentDiv, tagType, url, classType, id, idSuffix, contentVal)
-{
+function addEventList(parentDiv, tagType, url, classType, id, idSuffix, contentVal) {
     var newTag = $(tagType);
 
-    if (tagType == "<img>") 
-    {
+    if (tagType == "<img>") {
         newTag.attr("id", id);
         newTag.attr("src", url);
         newTag.addClass(classType);
     }
-    else
-    {
+    else {
         newTag.attr("id", id + idSuffix);
         if (!url == "") {
             newTag.attr("style", `background-image: url(\'${url}\')`)
@@ -266,13 +244,11 @@ function addEventList(parentDiv, tagType, url, classType, id, idSuffix, contentV
 }
 
 // Function to get data store in local storage 
-function checkLocalStorage() 
-{
+function checkLocalStorage() {
     //get the data from local storage
     var storedData = localStorage.getItem('prevSearches');
     var dataArray = [];
-    if (storedData) 
-    {
+    if (storedData) {
         //if there is data in local storage, trim the data then parse it into an array
         storedData.trim();
         dataArray = storedData.split(',');
