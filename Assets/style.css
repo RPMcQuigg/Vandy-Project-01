@@ -1,46 +1,83 @@
 body {
     font-family: monospace;
     font-size: 16px;
-    background-image: linear-gradient(180deg, red, yellow);
     height: 1000px;
 }
 
+h1 {
+    border: black solid;
+}
+
+h3 {
+    font-size: 28px;
+}
+
 textarea {
-    border: none;
-    resize: none;
-    color: white;
-    padding: 10px;
-    align-items: center;
-    height: 200px;
+    border: black solid 10px;
+    font-size: 12px;
+    height: 150px;
     display: flex;
     align-items: center;
     justify-content: center;
 }
 
+#originInput {
+    border: black;
+    background-color: gainsboro;
+    padding: 5px;
+    margin: 10px;
+    width: -webkit-fill-available;
+}
+
+#destinationInput {
+    border: black;
+    background-color: gainsboro;
+    padding: 5px;
+    margin: 10px;
+    width: -webkit-fill-available;
+}
+
+#button, #button2 {
+    background-color: skyblue;
+    border-radius: 15px;
+    width: 80px;
+}
+
+#display-forecast {
+    display: flex;
+}
+
+#display-forecast div {
+    background-color: lightgray;
+    margin: 10px;
+    color: black;
+}
+
+
 .title {
-    background-image: url("./Images/wood.jpg");
-    font-size: large;
-    color: whitesmoke;
-    height: 200px;
+    background-image: url("./Images/world.jpg");
+    font-size: 36px;
+    color: black;
+    height: 260px;
     display: flex;
     align-items: center;
     justify-content: center;
-    height: 200px;
     display: flex;
     align-items: center;
     justify-content: center;
     /* margin-left: 30%; */
+    padding: 10px;
+    margin: 10px;
 }
 
 #tagLine {
     text-align: center;
-    color: whitesmoke;
-
+    color: black;
 }
 
 .searchBar {
-    color: whitesmoke;
-    text-align:right;
+    color: black;
+    text-align: right;
     margin: 0;
     width: 357px;
     margin: 4px auto;
@@ -53,12 +90,12 @@ textarea {
 }
 
 .recent {
-    color: whitesmoke;
+    color: black;
     text-align: center;
 }
 
 .results {
-    color: whitesmoke;
+    color: black;
     text-align: center;
 }
 
@@ -66,7 +103,7 @@ textarea {
     grid-auto-rows: auto;
 }
 
-.col-span-8{
+.col-span-8 {
     text-align: left
 }
 
@@ -112,3 +149,46 @@ textarea {
         text-decoration: none;
         cursor: pointer;
     }
+#backgroundimage {
+    height: 100% !important;
+    width: 75%;
+    object-fit: cover;
+    align-items:center;
+    background-position:center;
+}
+
+#eventsLbl {
+    /*text-align: left; */
+    font-family: Broadway;
+    font-size: xx-large;
+    border-style: none !important;
+    background-color: #00bae0;
+}
+
+#eventSearchLbl, #no-events {
+    /*text-align: left; */
+    border-style: none !important;
+    padding: 0px 10px 0px 10px;
+    margin-top: 10px;
+}
+
+#eventsKeywordInput {
+    padding: 0px 10px 0px 10px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+#eventsSection {
+    text-align: left;
+    border-block-style: none !important;
+}
+
+input[type=text], select {
+    width: 20%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    display: inline-block;
+    border: 1px solid #00bae0;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
