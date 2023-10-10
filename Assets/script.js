@@ -107,7 +107,9 @@ function getForecast(lat, lon) {
 
 function displayForecast(data) {
     var displayForecastWeather = document.querySelector('#display-forecast')
-
+    //Clear out any child elements added in previous searches
+    deletePreviousElements("display-forecast");
+    
     //console.log(data)
     for (let i = 0; i < 40; i += 8) {
         //console.log(data.list[i])
@@ -135,6 +137,13 @@ function displayForecast(data) {
     }
 }
 
+function deletePreviousElements(eleId) {
+    var node= document.getElementById(eleId);
+    while (node.firstChild) {
+        node.removeChild(node.firstChild);
+    }
+}
+
 
 var getEventsSearch = async function (city) 
 {
@@ -149,6 +158,8 @@ var getEventsSearch = async function (city)
     var evtKeyword = document.getElementById("eventsKeywordInput").value.trim();
     eventSearchParams = !evtKeyword == "" ? eventSearchParams + `&keyword=${evtKeyword}` : eventSearchParams;
     var apiUrl = eventsAPIBaseUrl + eventSearchParams;
+    //Clear out any child elements added in previous searches
+    deletePreviousElements("eventsList");
     
     try
     {
