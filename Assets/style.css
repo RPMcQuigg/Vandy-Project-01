@@ -37,7 +37,8 @@ textarea {
     width: -webkit-fill-available;
 }
 
-#button, #button2 {
+#button,
+#button2 {
     background-color: skyblue;
     border-radius: 15px;
     width: 80px;
@@ -45,20 +46,25 @@ textarea {
 
 #display-forecast {
     display: flex;
+    justify-content: space-between;
 }
 
 #display-forecast div {
     background-color: lightgray;
     margin: 10px;
     color: black;
+    border-radius: 20px;
+    border: black
 }
 
 
 .title {
     background-image: url("./Images/world.jpg");
+    background-repeat: no-repeat;
+    background-size: cover;
     font-size: 36px;
     color: black;
-    height: 260px;
+    height: 350px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -113,17 +119,26 @@ textarea {
 
 /* The Modal (background) */
 .modal {
-    display: none; /* Hidden by default */
-    position: fixed; /* Stay in place */
-    z-index: 1; /* Sit on top */
-    padding-top: 100px; /* Location of the box */
+    display: none;
+    /* Hidden by default */
+    position: fixed;
+    /* Stay in place */
+    z-index: 1;
+    /* Sit on top */
+    padding-top: 100px;
+    /* Location of the box */
     left: 0;
     top: 0;
-    width: 100%; /* Full width */
-    height: 100%; /* Full height */
-    overflow: auto; /* Enable scroll if needed */
-    background-color: rgb(0,0,0); /* Fallback color */
-    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+    width: 100%;
+    /* Full width */
+    height: 100%;
+    /* Full height */
+    overflow: auto;
+    /* Enable scroll if needed */
+    background-color: rgb(0, 0, 0);
+    /* Fallback color */
+    background-color: rgba(0, 0, 0, 0.4);
+    /* Black w/ opacity */
 }
 
 /* Modal Content */
@@ -143,18 +158,19 @@ textarea {
     font-weight: bold;
 }
 
-    .close:hover,
-    .close:focus {
-        color: #000;
-        text-decoration: none;
-        cursor: pointer;
-    }
+.close:hover,
+.close:focus {
+    color: #000;
+    text-decoration: none;
+    cursor: pointer;
+}
+
 #backgroundimage {
     height: 100% !important;
     width: 75%;
     object-fit: cover;
-    align-items:center;
-    background-position:center;
+    align-items: center;
+    background-position: center;
 }
 
 #eventsLbl {
@@ -165,7 +181,8 @@ textarea {
     background-color: #00bae0;
 }
 
-#eventSearchLbl, #no-events {
+#eventSearchLbl,
+#no-events {
     /*text-align: left; */
     border-style: none !important;
     padding: 0px 10px 0px 10px;
@@ -183,7 +200,8 @@ textarea {
     border-block-style: none !important;
 }
 
-input[type=text], select {
+input[type=text],
+select {
     width: 20%;
     padding: 12px 20px;
     margin: 8px 0;
