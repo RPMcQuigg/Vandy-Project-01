@@ -23,6 +23,7 @@ textarea {
     color: black;
     height: 300px;
     width: 771px;
+    margin-left: 250px;
     display: flex;
     align-items: center;
     justify-content: center;
