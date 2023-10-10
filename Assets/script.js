@@ -1,8 +1,34 @@
 var searchBtn = document.querySelector('#button')
-// var originInput = document.querySelector('#originInput')
 var destinationInput = document.querySelector('#destinationInput')
-var APIKey = "09a37924adb28c1359f0c44a9ee1ddcb";
+var weatherAPIKey = "09a37924adb28c1359f0c44a9ee1ddcb";
 var scrapper = document.getElementById('scrapper')
+var searchBtn2 = document.querySelector('#button2')
+
+function init() {
+    // Add an event listener to search button to kick off searches and trigger recordSearch function
+    searchBtn.addEventListener("click", function () {
+        handleSearchClick();
+    });
+    searchBtn2.addEventListener("click", function () {
+        handleSearchClick();
+    });
+
+    //Simulate pushing the search button when the Enter key is pushed inside the destination input box
+    $("#destinationInput").keyup(function (event) {
+        if (event.keyCode === 13) {
+            searchBtn.click();
+        }
+    });
+
+    //Simulate pushing the search button when the Enter key is pushed inside the keyword input box
+    $("#eventsKeywordInput").keyup(function (event) {
+        if (event.keyCode === 13) {
+            searchBtn2.click();
+        }
+    });
+
+    checkLocalStorage();
+}
 
 // Handles search for the city once clicked
 async function handleSearchClick() {
@@ -58,17 +84,15 @@ async function success(pos) {
 // Get lat and lon for input city
 function getCoordinates(city) {
     try {
-        return fetch(`http://api.openweathermap.org/geo/1.0/direct?q=${city}&appid=${APIKey}`)
+        return fetch(`http://api.openweathermap.org/geo/1.0/direct?q=${city}&appid=${weatherAPIKey}`)
             .then(function (res) {
                 return res.json()
             })
             .then(function (data) {
-                console.log(data)
+                //console.log(data)
                 var lat = data[0].lat
                 var lon = data[0].lon
                 getForecast(lat, lon)
-
-
             })
     }
     catch (err) {
@@ -77,22 +101,22 @@ function getCoordinates(city) {
 }
 
 function getForecast(lat, lon) {
-    fetch(`https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=${APIKey}&units=imperial`)
+    fetch(`https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=${weatherAPIKey}&units=imperial`)
         .then(function (res) {
             return res.json()
         })
         .then(function (data) {
             displayForecast(data)
-            console.log(lat, lon)
+            //console.log(lat, lon)
         })
 }
 
 function displayForecast(data) {
     var displayForecastWeather = document.querySelector('#display-forecast')
 
-    console.log(data)
+    //console.log(data)
     for (let i = 0; i < 40; i += 8) {
-        console.log(data.list[i])
+        //console.log(data.list[i])
         var dayData = data.list[i];
         var divEl = document.createElement("div");
         var h2El = document.createElement('h2')
@@ -124,30 +148,27 @@ var getEventsSearch = async function (city)
     const eventsAPIBaseUrl = "https://app.ticketmaster.com/discovery/v2/events.json";
     //URL for api cannot have spaces so replace any spaces in the city name with underscores
     var cityMod = city.replace(" ", "_");
-    //var eventSearchParams = `?apikey=${eventsAPIKey}&city=${city}&size=20&sort=date,asc`
-    var eventSearchParams = `?apikey=${eventsAPIKey}&sort=date,name,asc`;
+    //Sort by date then name ascending. Limit events returned to 60.
+    var eventSearchParams = `?apikey=${eventsAPIKey}&size=60&sort=date,name,asc`;
     eventSearchParams = !cityMod == "" ? eventSearchParams + `&city=${cityMod}` : eventSearchParams;
     //append the keyword(s) to the url if they are present
     var evtKeyword = document.getElementById("eventsKeywordInput").value.trim();
     eventSearchParams = !evtKeyword == "" ? eventSearchParams + `&keyword=${evtKeyword}` : eventSearchParams;
-
     var apiUrl = eventsAPIBaseUrl + eventSearchParams;
-    console.log(apiUrl);
-
+    
     try
     {
-        //Dynamically add events to the list. The function takes: tag type, image source (if applicable), id, id suffix, 
-        //mouse over action, mouse out action, cursor style, class, and text content.
-        //addEventList(tagType, imgSrc, id, idSuffix, mouseOver, mouseOut, cursorStyle, classType, contentVal)
+        //Dynamically add events to the list. The function takes: parent div, tag type, image source (if applicable), id, 
+        //id suffix, class, and text content.
+        //addEventList(parentDiv, tagType, imgSrc, id, idSuffix, classType, contentVal)
         const res = await fetch(apiUrl);
         const data = await res.json();
         //max image size to display
         var imgWidth = 205;
         var imgHeight = 115;
-        var mouseActionUnderline = "this.style.textDecoration='underline'";
-        var mouseActionNone = "this.style.textDecoration='none'";
         var tagP = "<p>";
-
+        var newBlockRow;
+ 
         if (window.screen.height <= 900)
         {
             //min image size to display
@@ -160,23 +181,25 @@ var getEventsSearch = async function (city)
         {
             for (var i = 0; i < data._embedded.events.length; i++)
             {
-                var newBlockRow = $("<div>")
+                var id = data._embedded.events[i].id;
+                newBlockRow = $("<div>")
+                //Add so row can be clickable.
+                var newLinkRow = $("<a>")
+                newLinkRow.attr("id", id);
                 
-                newBlockRow.addClass(`grid grid-cols-11 grid-rows-3 grid-flow-col gap-2 border-2 border-solid border-black`);
+                newLinkRow.addClass(`grid grid-cols-11 grid-rows-3 grid-flow-col gap-2 border-2 border-solid border-black`);
                 //add the event image. multiple images available so loop through to get correct size
                 for (var m = 0; m < data._embedded.events[i].images.length; m++)
                 {
                     if (data._embedded.events[i].images[m].width == imgWidth && data._embedded.events[i].images[m].height == imgHeight)
                     {
-                        //addEventList(newBlockRow, '<img>', data._embedded.events[i].images[m].url, "row-span-3 col-span-1 h-auto max-w-full max-h-full");
-                        addEventList(newBlockRow, '<div>', data._embedded.events[i].images[m].url, "row-span-3 col-span-1 max-w-full",  "backgroundimage", "");
+                        addEventList(newLinkRow, '<div>', data._embedded.events[i].images[m].url, "row-span-3 col-span-1 max-w-full", "backgroundimage", "");
                         break;
                     }
                 }
 
                 //add the event name
-                addEventList(newBlockRow, tagP, "", "col-span-8", data._embedded.events[i].id, "N", mouseActionUnderline,
-                    mouseActionNone, "cursor: pointer", data._embedded.events[i].name);
+                addEventList(newLinkRow, tagP, "", "col-span-8", id, "N", data._embedded.events[i].name);
 
                 //add the event date
                 var localEventDate = dayjs(data._embedded.events[i].dates.start.localDate).format("MM/DD/YYYY");
@@ -184,23 +207,28 @@ var getEventsSearch = async function (city)
                 //if the time isn't passed in the response only display the date
                 var eventDate = localEventTime == null ? localEventDate : dayjs(localEventDate + " " + localEventTime).format("MM/DD/YYYY  h:mm a");
 
-                addEventList(newBlockRow, tagP, "", "col-span-8", data._embedded.events[i].id, "D", mouseActionUnderline,
-                    mouseActionNone, "cursor: pointer", eventDate);
+                addEventList(newLinkRow, tagP, "", "col-span-8", id, "D", eventDate);
 
                 //add the event venue(s)
                 for (v = 0; v < data._embedded.events[i]._embedded.venues.length; v++)
                 {
-                    addEventList(newBlockRow, tagP, "", "col-span-8", data._embedded.events[i].id, "V", mouseActionUnderline,
-                        mouseActionNone, "cursor: pointer", data._embedded.events[i]._embedded.venues[v].name);
+                    addEventList(newLinkRow, tagP, "", "col-span-8", id, "V", data._embedded.events[i]._embedded.venues[v].name);
                 }
+
+                $(newBlockRow).append(newLinkRow);
+                $("#eventsList").append(newBlockRow);
+                //Adds the url to the clickable row
+                document.getElementById(id).href = data._embedded.events[i].url;
+                //Opens the link in a new tab
+                document.getElementById(id).target = "_blank";
             }
         }
         else
         {
-            var newTag = $("<h1>")
-            newTag.attr("id", "no-events");
-            newTag.text("No events found");
-            $("#eventsList").prepend(newTag);
+            newBlockRow = $("<h1>")
+            newBlockRow.attr("id", "no-events");
+            newBlockRow.text("No events found");
+            $("#eventsList").prepend(newBlockRow);
         }
     }
     catch (err)
@@ -210,7 +238,7 @@ var getEventsSearch = async function (city)
 
 };
 
-function addEventList(parentDiv, tagType, url, classType, id, idSuffix, mouseOver, mouseOut, cursorStyle, contentVal)
+function addEventList(parentDiv, tagType, url, classType, id, idSuffix, contentVal)
 {
     var newTag = $(tagType);
 
@@ -220,63 +248,19 @@ function addEventList(parentDiv, tagType, url, classType, id, idSuffix, mouseOve
         newTag.attr("src", url);
         newTag.addClass(classType);
     }
-    else if (tagType == "<a>")
-    {
-        parentDiv.href(url);
-    }
     else
     {
         newTag.attr("id", id + idSuffix);
         if (!url == "")
         {
             newTag.attr("style", `background-image: url(\'${url}\')`)
-            //newTag.attr("width", imgWidth)
         }
-        //newTag.attr("onmouseover", mouseOver)
-        //newTag.attr("onmouseout", mouseOut)
-        //newTag.attr("style", cursorStyle)
         newTag.addClass(classType);
         newTag.text(contentVal);
     }
 
     parentDiv.append(newTag)
-    $("#eventsList").prepend(parentDiv);
-    if (!tagType == "<img>")
-    {
-        $("#" + id + idSuffix).on("click", function ()
-        {
-            console.log("Clicked event" + tagType + " " + id);
-        });
-    }
 }
-
-// Record searches
-/*
-const searchOrigin = document.getElementById("originInput")
-const searchInput = document.getElementById("destinationInput");
-
-
-function recordSearch() {
-    const recentSearches = JSON.parse(localStorage.getItem("prevSearches")) || [];
-    const searchTerm = searchInput.value.trim(); // getting Going To Data
-    //const searchOriginTerm = searchOrigin.value.trim(); // getting Origin Data
-    const newPath = [searchOriginTerm, searchTerm]
-
-    if (searchTerm !== "") {
-        recentSearches.unshift(newPath); // bring in the small arr into the main arr
-
-        if (recentSearches.length > 5) {
-            recentSearches.pop();
-        }
-
-        localStorage.setItem("prevSearches", JSON.stringify(recentSearches));
-
-        displayRecentSearches();
-    }
-    searchOrigin.value = "";
-    searchInput.value = "";
-}
-*/
 
 // Function to get data store in local storage 
 function checkLocalStorage() 
@@ -340,49 +324,4 @@ function createRecentSearchLink(city)
     });
 }
 
-// Display recent searches
-/*
-function displayRecentSearches() {
-    const recentSearches = JSON.parse(localStorage.getItem("prevSearches")) || [];
-    const recentSearchesList = document.getElementById("prevSearches");ui
-
-    recentSearchesList.innerHTML = "";
-
-    for (const search of recentSearches) {
-        const listItem = document.createElement("li");
-        listItem.classList.add("listSearches");
-        listItem.textContent = search;
-        recentSearchesList.appendChild(listItem);
-        listItem.addEventListener("click", function (event) {
-            const userChoice = event.target.textContent
-            const originCity = userChoice.split(',')[0]
-            const destinationCity = userChoice.split(',')[1]
-            //searchOrigin.value = originCity
-            searchInput.value = destinationCity
-        })
-    }
-}
-*/
-
-// Calls displayRecentSearches to load previously made searches
-//displayRecentSearches();
-
-// Add an event listener to search button to kick off searches and trigger recordSearch function
-searchBtn.addEventListener("click", function () {
-    handleSearchClick();
-    //recordSearch();
-});
-var searchBtn2 = document.querySelector('#button2')
-searchBtn2.addEventListener("click", function () {
-    handleSearchClick();
-    //recordSearch();
-});
-
-//Simulate pushing the search button when the Enter key is pushed inside the destination input box
-$("#destinationInput").keyup(function (event) {
-    if (event.keyCode === 13) {
-        searchBtn.click();
-    }
-});
-
-checkLocalStorage();
+init();
