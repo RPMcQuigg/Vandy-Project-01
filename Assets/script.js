@@ -33,21 +33,18 @@ function init() {
 // Handles search for the city once clicked
 async function handleSearchClick() {
     var destCity = destinationInput.value.trim()
-    if (!destCity == "")
-    {
+    if (!destCity == "") {
         getCoordinates(destCity);
         getEventsSearch(destCity);
         saveToLocalStorage(destCity);
     }
-    else
-    {
+    else {
         //Give the user a message telling them to enter a destination city.
         informUser("Enter a destination city.");
     }
 }
 
-function informUser(msg)
-{
+function informUser(msg) {
     // Get the modal
     var modal = document.getElementById("msgModal");
     var span = document.getElementsByClassName("close")[0];
@@ -55,18 +52,15 @@ function informUser(msg)
     modal.style.display = "block";
 
     // When the user clicks on <span> (x), close the modal
-    span.onclick = function() 
-    {
+    span.onclick = function () {
         modal.style.display = "none";
     }
 
     // When the user clicks anywhere outside of the modal, close it
-    window.onclick = function(event) 
-    {
-      if (event.target == modal) 
-      {
-        modal.style.display = "none";
-      } 
+    window.onclick = function (event) {
+        if (event.target == modal) {
+            modal.style.display = "none";
+        }
     }
 }
 function showError(error) {
@@ -142,7 +136,7 @@ function displayForecast(data) {
 }
 
 
-var getEventsSearch = async function (city)
+var getEventsSearch = async function (city) 
 {
     const eventsAPIKey = "KRxYIgVel9CyKuLI2MUA6RETp7Q3HXxl";
     const eventsAPIBaseUrl = "https://app.ticketmaster.com/discovery/v2/events.json";
@@ -177,9 +171,9 @@ var getEventsSearch = async function (city)
         }
 
         //Skip adding html elements if no event returned
-        if (data.page.totalPages >> 0)
+        if (data.page.totalPages >> 0) 
         {
-            for (var i = 0; i < data._embedded.events.length; i++)
+            for (var i = 0; i < data._embedded.events.length; i++) 
             {
                 var id = data._embedded.events[i].id;
                 newBlockRow = $("<div>")
@@ -214,7 +208,7 @@ var getEventsSearch = async function (city)
                 {
                     addEventList(newLinkRow, tagP, "", "col-span-8", id, "V", data._embedded.events[i]._embedded.venues[v].name);
                 }
-
+                
                 $(newBlockRow).append(newLinkRow);
                 $("#eventsList").append(newBlockRow);
                 //Adds the url to the clickable row
@@ -231,18 +225,17 @@ var getEventsSearch = async function (city)
             $("#eventsList").prepend(newBlockRow);
         }
     }
-    catch (err)
+    catch (err) 
     {
         console.log(err);
     };
-
 };
 
 function addEventList(parentDiv, tagType, url, classType, id, idSuffix, contentVal)
 {
     var newTag = $(tagType);
 
-    if (tagType == "<img>")
+    if (tagType == "<img>") 
     {
         newTag.attr("id", id);
         newTag.attr("src", url);
@@ -251,8 +244,7 @@ function addEventList(parentDiv, tagType, url, classType, id, idSuffix, contentV
     else
     {
         newTag.attr("id", id + idSuffix);
-        if (!url == "")
-        {
+        if (!url == "") {
             newTag.attr("style", `background-image: url(\'${url}\')`)
         }
         newTag.addClass(classType);
@@ -282,31 +274,26 @@ function checkLocalStorage()
 }
 
 // Function to Set data in Local storage
-function saveToLocalStorage(city) 
-{
+function saveToLocalStorage(city) {
     event.preventDefault();
     var data = localStorage.getItem('prevSearches');
-    if (data) 
-    {
+    if (data) {
         //If there is data in local storage check if the just searched for city is already
         //included in that data. If not, add the city to the list.
-        if (data.indexOf(city) === -1) 
-        {
+        if (data.indexOf(city) === -1) {
             data = data + ',' + city;
             localStorage.setItem('prevSearches', data);
             createRecentSearchLink(city);
         }
-    } 
-    else 
-    {
+    }
+    else {
         //If there is no data in local storage, add it.
         data = city;
         localStorage.setItem('prevSearches', data);
     }
 }
 
-function createRecentSearchLink(city) 
-{
+function createRecentSearchLink(city) {
     var newLi = $("<li>")
     var newP = $('<p>');
     newP.attr('id', 'pastCity');
