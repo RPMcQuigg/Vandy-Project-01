@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,34 +7,22 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="./Assets/style.css">
 </head>
-
 <body>
-
-
     <!--Page Header-->
-
     <div class="title">
-
         <h1>The Local List</h1>
-
     </div>
 
     <!--Contains Search Bar And Tag Line On Page-->
     <div class="search">
-
-
         <div id="tagLine">
-
             <h3>Where Are You Traveling To Next?</h3>
-
         </div>
 
         <!--The Search Bar-->
         <div class="searchBar">
             <div>
-                <!-- <input id="originInput" type="text" placeholder="Where Are Your Coming From..."> -->
                 <input id="destinationInput" type="text" placeholder="Where Are You Going Next...">
-                <input id="dateInput" type="date">
             </div>
 
             <div class="searchButton">
@@ -47,26 +34,18 @@
 
     <!--Previous Searches-->
     <div class="recent">
-
         <h4>Recent Searches</h4>
-
         <ul id="prevSearches">
         </ul>
-
     </div>
 
     <!--Results For The Desired Location-->
     <div class="results">
-
-
         <div id="placeholder">
-
-            <h2>New Adventures Await</h2>
-
+            <h2>5 Day Weather Forecast</h2>
         </div>
 
         <div id="cityName">
-
         </div>
 
         <div class="weather-container">
@@ -82,31 +61,21 @@
             <h2 id="5-day-forecast"></h2>
             <div id="display-forecast"></div>
         </div>
+    </div>
 
-
-        <!--Events section-->
-        <section id="eventsSection">
-            <h1 id="eventsLbl">Events</h1>
-            <div>
-                <h1 id="eventSearchLbl">Search By</h1>
-                <input id="eventsKeywordInput" type="text" placeholder="Keyword...">
-                <!-- <input id="dateInput" type="date"> -->
-                <div class="searchButton" style="padding:10px">
-                    <button id="button2" type="button">Search</button>
-                </div>
+    <!--Events section-->
+    <section id="eventsSection">
+        <h1 id="eventsLbl">Events</h1>
+        <div>
+            <h1 id="eventSearchLbl">Search By</h1>
+            <input id="eventsKeywordInput" type="text" placeholder="Keyword...">
+            <div class="searchButton" style="padding:10px">
+                <button id="button2" type="button">Search</button>
             </div>
-            <div id="eventsList" class="grid grid-flow-row auto-rows-max">
-                <div id="eventsList" class="grid grid-flow-row auto-rows-max" bg-purple-400>
-                </div>
-            </div>
-        </section>
-
-        <div class="flex
-        items-center
-        justify-center
-        h-64">
-            <h1 class="text-white text-3xl font-semibold"></h1>
         </div>
+        <div id="eventsList" class="grid grid-flow-row auto-rows-max">
+        </div>
+    </section>
 
 
     </div>
@@ -119,18 +88,12 @@
         </div>
     </div>
 
-
     <!--Holds all of the Script Links for JS And APIs-->
     <div class="Scripts">
         <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
         <script src="./Assets/script.js"></script>
-
         <script src="https://cdn.jsdelivr.net/npm/dayjs@1.11.3/dayjs.min.js"
                 integrity="sha256-iu/zLUB+QgISXBLCW/mcDi/rnf4m4uEDO0wauy76x7U=" crossorigin="anonymous"></script>
-
     </div>
-
-
 </body>
-
 </html>
