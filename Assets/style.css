@@ -18,7 +18,7 @@ textarea {
 }
 
 .title {
-    background-image: url("./Images/Project01.png");
+    background-image: url("./Images/headerImg.jpeg");
     font-size: large;
     color: black;
     height: 200px;
@@ -30,6 +30,7 @@ textarea {
     align-items: center;
     justify-content: center;
     box-shadow: 0px 0px 10px 10px yellow;
+    font-weight: bolder;
 }
 
 #tagLine {
@@ -61,7 +62,7 @@ textarea {
 .inputStyle {
     background-color: black;
     color: white;
-    width: 50%;
+    width: 75%;
     height: 25px;
 }
 
